@@ -1,6 +1,6 @@
 package LinkedList;
 
-public class linkedList {
+public class LinkedList {
 
 	public static void main(String[] args){
 		Node head = null;
@@ -150,7 +150,7 @@ public class linkedList {
 		return prev;
 	}
 
-	private static void print(Node head) {
+	public static void print(Node head) {
 		while(head!=null){
 			System.out.print(head.data +" -> ");
 			head = head.next;

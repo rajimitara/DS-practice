@@ -1,6 +1,5 @@
 package Queue;
 
-import javax.print.attribute.Size2DSyntax;
 
 import LinkedList.Node;
 
@@ -8,6 +7,9 @@ public class Queue {
 	static int size = 10;
 	static int rear1 = 0;
 	static int front1 = 0;
+	static java.util.Queue<Integer> queueBase = new java.util.LinkedList<Integer>();
+	static java.util.Queue<Integer> queueTemp = new java.util.LinkedList<Integer>();
+	
 	
 	public static void main(String[] args){
 		int[] arr = {1,2,3,4,5,6};
@@ -46,7 +48,63 @@ public class Queue {
 		
 		System.out.println("Next element in queue " + queue[front1-1]);
 		System.out.println("Capacity of queue "+(Math.abs(rear1-front1)));
+		
+		//Implement stack with queue
+		
+		addToStack(2);addToStack(3);addToStack(4);addToStack(5);addToStack(6);
+		
+		peek();
+		try {
+			System.out.println(getTopFromStack());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		peek();
+		
 	}
+	
+	private static Integer getTopFromStack() throws Exception {
+		
+		if(queueTemp.isEmpty() && queueBase.isEmpty())
+			throw new Exception("Stack is empty");
+		
+		if(queueTemp.size() == 1)
+			return queueTemp.poll();
+		
+		queueTemp.addAll(queueBase);
+			
+		while(!queueTemp.isEmpty()){
+			queueBase.add(queueTemp.poll());
+			if(queueTemp.size() == 1)
+				return queueTemp.poll();
+		}
+		
+		return null;
+	}
+
+	private static void peek() {
+		
+		if(queueTemp.size() == 1)
+			System.out.println("Top of stack "+queueTemp.peek());
+		
+		queueTemp.addAll(queueBase);
+			
+		while(!queueTemp.isEmpty()){
+			queueBase.add(queueTemp.poll());
+			if(queueTemp.size() == 1)
+				System.out.println("Top of stack "+queueTemp.peek());
+		}
+		
+		
+	}
+
+	private static void addToStack(int val) {
+		queueBase.add(val);
+	}
+
+	//1 2 3 4 5 (base)
+	//peek,poll -> base to Temp then push all back to base except 1.
 	
 	private static void dequeue(int[] queue) throws Exception {
 		if(front1 == 0)

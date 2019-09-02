@@ -3,6 +3,8 @@ package Stack;
 import LinkedList.Node;
 
 public class Stack {
+	static java.util.Stack<Integer> stackBase = new java.util.Stack<Integer>();
+	static java.util.Stack<Integer> stackTemp = new java.util.Stack<Integer>();
 	
 	public static void main(String[] args){
 		int[] arr = {1,2,3,4,5};
@@ -30,8 +32,56 @@ public class Stack {
 		//towers of Hanoi
 		towersOfHanoi(3,'A','B','C');
 		
+		addToQueue(2);addToQueue(3);addToQueue(4);addToQueue(5);addToQueue(6);
+		
+		peek();
+		try {
+			System.out.println(getTopFromQueue());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		peek();
+	}
+
+
+
+	private static void peek() {
+		if(stackTemp.isEmpty()){
+			while(!stackBase.isEmpty())
+				stackTemp.add(stackBase.pop());
+		}
+		System.out.println("Queue top value "+ stackTemp.peek());
+	}
+
+
+
+	private static Integer getTopFromQueue() throws Exception {
+		if(stackTemp.isEmpty()){
+			if(stackBase.isEmpty()) throw new Exception("Queue is empty");
+			while(!stackBase.isEmpty())
+				stackTemp.add(stackBase.pop());
+		}
+		return stackTemp.pop();
+	}
+
+
+
+	private static void addToQueue(int val) {
+		stackBase.add(val);
+	}
+
+
+
+	private static void createQueue(java.util.Stack<Integer> stack) {
+		
+		java.util.Stack<Integer> stack1 = new java.util.Stack<Integer>();
+			
+		stack1.addAll(stack);
 		
 	}
+	
+	
 
 
 

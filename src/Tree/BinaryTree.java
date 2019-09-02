@@ -1,17 +1,86 @@
 package Tree;
 
-import java.util.LinkedList;
 import java.util.Queue;
+
+import LinkedList.LinkedList;
+import LinkedList.Node;
 
 public class BinaryTree {
 
 	public static void main(String[] args){
+		Node head = null;
+		LinkedList ll = new LinkedList();
+		int[] arr = {1,3,4,5,6,7,9,10};
+		int n = arr.length;
 		
-		//insert(head);
+		for(int i=0;i<n;i++)
+			head = ll.insert(arr[i],head);
+		
+		LinkedList.print(head);
+		
+		Tree root = insert(head);
+		
+		preOrder(root);
+		
+		Tree lca = leastCommonAncestor(root,3,6);
+		
+		System.out.println("leastCommonAncestor is "+lca.data);
+		
+		//delete
+		
 	}
 	
+	private static Tree leastCommonAncestor(Tree root, int a, int b) {
+		Tree left, right;
+		if(root==null)
+			return null;
+		
+		if(root.data == a || root.data == b)
+			return root;
+		
+		left = leastCommonAncestor(root.left, a, b);
+		right = leastCommonAncestor(root.right, a, b);
+		
+		if(left!=null && right!=null)
+			return root;
+		else
+			return left==null ? right:left;
+	}
+
+	private static Tree insert(Node head) {
+		Queue<Tree> queue = new java.util.LinkedList<Tree>();
+		if(head==null)
+			return null;
+		
+		Tree root = new Tree(head.data);
+		queue.add(root);
+		queue.add(null);
+		
+		while(head!=null && head.next!=null){
+			Tree val = queue.remove();
+			
+			if(val!=null){
+				if(head.next!=null){
+					head = head.next;
+					val.left = new Tree(head.data);
+					queue.add(val.left);
+				}
+				if(head.next!=null){
+					head = head.next;
+					val.right = new Tree(head.data);
+					queue.add(val.right);
+				}
+				queue.add(val.left);
+			}else{
+				queue.add(null);
+			}
+		}
+		
+		return root;
+	}
+
 	public void lineOrder(Tree root){
-		Queue<Tree> queue = new LinkedList<Tree>();
+		Queue<Tree> queue = new java.util.LinkedList<Tree>();
 		int i=0;
 		
 		queue.add(root);
@@ -31,7 +100,7 @@ public class BinaryTree {
 		
 	}
 	
-	public void preOrder(Tree root){
+	public static void preOrder(Tree root){
 		if(root!=null){
 			System.out.println(root.data);
 			preOrder(root.left);
